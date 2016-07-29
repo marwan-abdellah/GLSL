@@ -4,21 +4,14 @@
 #####################################################################
 
 #########################################################
-#! Add source files
+#! Add source and header files
 #########################################################
-set( COMMON_SOURCES_FILES
-    ${CMAKE_CURRENT_SOURCE_DIR}/common/Shaders.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/common/Utilities.cpp
-)
-
-#########################################################
-#! Add header files
-#########################################################
-SET( COMMON_HEADER_FILES
-    ${CMAKE_CURRENT_SOURCE_DIR}/common/Shaders.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/common/Utilities.h
+file( GLOB COMMON_FILES
+    "${CMAKE_CURRENT_SOURCE_DIR}/common/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/common/*.h"
 )
 
 add_subdirectory( sample1 )
 add_subdirectory( sample2 )
+add_subdirectory( sample3 )
 

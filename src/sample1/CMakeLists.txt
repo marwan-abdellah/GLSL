@@ -25,8 +25,7 @@ SET( SHADERS
 #########################################################
 # Voxy
 add_executable( ${SAMPLE} ${SAMPLE_SOURCE_FILES}
-    ${COMMON_SOURCES_FILES}
-    ${COMMON_HEADER_FILES}
+    ${COMMON_FILES}
     ${SHADERS}
 )
 
