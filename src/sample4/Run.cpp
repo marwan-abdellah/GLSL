@@ -10,8 +10,8 @@
 #include <common/Matrix.h>
 #include <common/Vector.h>
 
-#define WINDOW_WIDTH    512
-#define WINDOW_HEIGHT   512
+#define WINDOW_WIDTH    1000
+#define WINDOW_HEIGHT   1000
 #define WINDOW_TITLE    "Shader Sample !"
 
 /**
@@ -45,14 +45,14 @@ GLuint shaderProjectionMatrix;
 GLuint shaderViewMatrix;
 
 /**
+ * @brief shaderHalfPixelSize
+ */
+GLuint shaderHalfPixelSize;
+
+/**
  * @brief shaderVertex
  */
 GLuint shaderVertex;
-
-/**
- * @brief shaderColor
- */
-GLuint shaderColor;
 
 /**
  * @brief vertexArray
@@ -72,16 +72,17 @@ float viewMatrix[16];
 
 // Data for triangle
 float vertices1[] = { -1.0f, -1.0f, -5.0f, 1.0f,
-                       1.0f, -1.0f, -5.0f, 1.0f,
-                       0.0f, 1.0f, -5.0f, 1.0f };
+                      1.0f, -1.0f, -5.0f, 1.0f,
+                      0.0f, 1.0f, -5.0f, 1.0f };
 
-float colors1[] = { 0.0f, 0.0f, 1.0f, 1.0f,
-                    0.0f, 0.0f, 1.0f, 1.0f,
-                    0.0f,0.0f, 1.0f, 1.0f };
+float halfPixelSize[2];
 
 
 void reshape( int w, int h )
 {
+    halfPixelSize[0] = 1.0 / ( GLfloat ) w;
+    halfPixelSize[1] = 1.0 / ( GLfloat ) h;
+
     float ratio;
     // Prevent a divide by zero, when window is too short
     // (you cant make a window of zero width).
@@ -100,6 +101,7 @@ void setUniforms()
     // Must be called after glUseProgram
     glUniformMatrix4fv( shaderProjectionMatrix,  1, false, projectionMatrix );
     glUniformMatrix4fv( shaderViewMatrix,  1, false, viewMatrix );
+    glUniform2fv( shaderHalfPixelSize, 1, halfPixelSize );
 }
 
 void renderScene( void )
@@ -131,28 +133,22 @@ void processNormalKeys( unsigned char key, int, int )
 
 void initBuffers()
 {
-    GLuint buffers[2];
+    GLuint buffers;
 
     glGenVertexArrays( 1, &vertexArray );
 
     // VAO for first triangle
     glBindVertexArray( vertexArray );
 
-    // Generate two slots for the vertex and color buffers
-    glGenBuffers( 2, buffers );
+    // Generate one slot for the vertex
+    glGenBuffers( 1, &buffers );
 
     // Bind buffer for vertices and copy data into buffer
-    glBindBuffer( GL_ARRAY_BUFFER, buffers[0] );
+    glBindBuffer( GL_ARRAY_BUFFER, buffers );
     glBufferData( GL_ARRAY_BUFFER, sizeof( vertices1 ), vertices1,
                   GL_STATIC_DRAW );
     glEnableVertexAttribArray( shaderVertex );
     glVertexAttribPointer( shaderVertex, 4, GL_FLOAT, 0, 0, 0 );
-
-    // Bind buffer for colors and copy data into buffer
-    glBindBuffer( GL_ARRAY_BUFFER, buffers[1] );
-    glBufferData( GL_ARRAY_BUFFER, sizeof( colors1 ), colors1, GL_STATIC_DRAW );
-    glEnableVertexAttribArray( shaderColor );
-    glVertexAttribPointer( shaderColor, 4, GL_FLOAT, 0, 0, 0 );
 }
 
 void initShaders( )
@@ -202,10 +198,12 @@ void initShaders( )
     Shader::printProgramInfoLog( shaderProgram );
 
     shaderVertex = glGetAttribLocation( shaderProgram, "inPosition" );
-    shaderColor = glGetAttribLocation( shaderProgram, "inColor" );
 
     shaderProjectionMatrix = glGetUniformLocation( shaderProgram, "projMatrix" );
     shaderViewMatrix = glGetUniformLocation( shaderProgram, "viewMatrix" );
+
+    shaderHalfPixelSize = glGetUniformLocation( shaderProgram,
+                                                "halfPixelSize" );
 }
 
 int main( int argc, char **argv )

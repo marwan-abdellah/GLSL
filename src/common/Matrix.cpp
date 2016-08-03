@@ -51,7 +51,8 @@ void setTranslationMatrix( float* mat, float x, float y, float z )
     mat[14] = z;
 }
 
-void buildProjectionMatrix( float* projectionMatrix, float fov, float ratio, float nearP, float farP )
+void buildProjectionMatrix( float* projectionMatrix,
+                            float fov, float ratio, float nearP, float farP )
 {
     float f = 1.0f / tan (fov * ( M_PI / 360.0 ));
 

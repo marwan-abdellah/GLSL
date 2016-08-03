@@ -16,9 +16,8 @@ file( GLOB SAMPLE_HEADER_FILES "*.h" )
 #! Add shaders files
 #########################################################
 SET( SHADERS
-    shaders/Color.vert.glsl
-    shaders/Color.geom.glsl
-    shaders/Color.frag.glsl
+    shaders/Minimal.vert.glsl
+    shaders/Minimal.frag.glsl
 )
 
 #########################################################
@@ -26,11 +25,10 @@ SET( SHADERS
 #########################################################
 # Voxy
 add_executable( ${SAMPLE} ${SAMPLE_SOURCE_FILES}
-    ${COMMON_FILES}
+     ${COMMON_FILES}
     ${SHADERS}
 )
 
 #! Copy all the shaders to the binary directory
-configure_file( shaders/Color.vert.glsl ${CMAKE_CURRENT_BINARY_DIR}/Color.vert.glsl )
-configure_file( shaders/Color.geom.glsl ${CMAKE_CURRENT_BINARY_DIR}/Color.geom.glsl )
-configure_file( shaders/Color.frag.glsl ${CMAKE_CURRENT_BINARY_DIR}/Color.frag.glsl )
+configure_file( shaders/Minimal.vert.glsl ${CMAKE_CURRENT_BINARY_DIR}/Minimal.vert.glsl )
+configure_file( shaders/Minimal.frag.glsl ${CMAKE_CURRENT_BINARY_DIR}/Minimal.frag.glsl )

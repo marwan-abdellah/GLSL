@@ -103,15 +103,6 @@ float colors2[] = { 1.0f, 0.0f, 0.0f, 1.0f,
                     1.0f, 0.0f, 0.0f, 1.0f,
                     1.0f,0.0f, 0.0f, 1.0f };
 
-
-/**
- * @brief angle
- */
-float angle = 0;
-
-
-float lightPosition[4] = { 1, 0.5, 1, 0};
-
 void reshape( int w, int h )
 {
     float ratio;
@@ -124,7 +115,7 @@ void reshape( int w, int h )
     glViewport( 0, 0, w, h );
 
     ratio = ( 1.0f * w ) / h;
-    Matrix::buildProjectionMatrix( projectionMatrix, 53.13f, ratio, 1.0f, 30.0f );
+    Matrix::buildProjectionMatrix( projectionMatrix, 15, ratio, 1.0f, 100.0f );
 }
 
 void setUniforms()
@@ -138,7 +129,7 @@ void renderScene( void )
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    Matrix::setCamera( viewMatrix, 10, 2, 10, 0, 2, -5 );
+    Matrix::setCamera( viewMatrix, 0, 0, 10, 0, 0, 0 );
 
     glUseProgram( shaderProgram );
     setUniforms( );
